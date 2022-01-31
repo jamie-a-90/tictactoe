@@ -8,58 +8,117 @@ class Multiplayer:
         self.player_two = 'Player Two'
         self.grid = [[0,0,0],[0,0,0],[0,0,0]]
         self.game_running = False
-        self.player_turn = random.randint(1,2)
-        self.select_column = int()
-        self.select_row = int()
+        self.player_turn = 2# random.randint(1,2)
+        self.select_column = str()
+        self.select_row = str()
 
-    def __print_grid(self):
+    # Print grid in console
+    def __print_grid(self, message=None):
         self.__clear()
+        if message:
+            print(message)
         print('\n')
         for row in self.grid:
-            print(row)
+            print('     ' + str(row))
         print('\n')
         
+    # Clear console
     def __clear(self):
         time.sleep(1)
         system('cls')
 
+    # Check for invalid input
     def __check_grid_entry(self):
-        if self.select_column not in range(1, 4) or self.select_row not in range(1, 4):
+        if not self.select_column.isnumeric() or not self.select_row.isnumeric(): # Check to ensure input is numeric
             print('\nInvalid input. Please use column/row 1, 2 or 3.')
             time.sleep(2)
-            self.run_game()            
-        if not self.grid[self.select_row-1][self.select_column-1] == 0:
-            print('\nError. You cannot go there.')
+            self.run_game()
+        if int(self.select_column) not in range(1, 4) or int(self.select_row) not in range(1, 4): # Check input is a valid number. 1, 2 or 3
+            print('\nInvalid input. Please use column/row 1, 2 or 3.')
+            time.sleep(2)
+            self.run_game()           
+        if not self.grid[int(self.select_row)-1][int(self.select_column)-1] == 0: # Check to ensure grid space hasn't already been taken
+            print('\nYou cannot go there. Already taken.')
             time.sleep(2)
             self.run_game()
     
+    # Check win condition. Across, down, diagonal and draw 
     def __check_win(self):
-        None
+        def check_rows():
+            for row in self.grid:
+                if set(row) == {1}:
+                    self.game_running = False
+                    self.__print_grid(message='\n##### Player 1 #####')
+                    print("Player one wins!\n")
+                if set(row) == {2}:
+                    self.game_running = False
+                    self.__print_grid(message='\n##### Player 2 #####')
+                    print("Player two wins!\n")  
+                
+        def check_columns(): ### THIS IS FUCKED. FIX IT.
+            check_column_one = list()
+            check_column_two = list()
+            check_column_three = list()
+            for row in self.grid:
+                check_column_one.append(row[0])
+                check_column_two.append(row[1])
+                check_column_three.append(row[2])
+            if set(check_column_one) == {1} or check_column_two == {1} or check_column_three == {1}:
+                self.game_running = False
+                self.__print_grid(message='\n##### Player 1 #####')
+                print("Player one wins!\n")
+            if set(check_column_one) == {2} or check_column_two == {2} or check_column_three == {2}:#
+                self.game_running = False
+                self.__print_grid(message='\n##### Player 2 #####')
+                print("Player two wins!\n")
+
+        def check_diagonal():
+            check_diag_one = [self.grid[0][0], self.grid[1][1], self.grid[2][2]]
+            check_diag_two = [self.grid[0][2], self.grid[1][1], self.grid[2][0]]
+            if set(check_diag_one) == {1} or set(check_diag_two) == {1}:
+                self.game_running = False
+                self.__print_grid(message='\n##### Player 1 #####')
+                print("Player one wins!\n")                
+            if set(check_diag_one) == {2} or set(check_diag_two) == {2}:
+                self.game_running = False
+                self.__print_grid(message='\n##### Player 2 #####')
+                print("Player two wins!\n")  
+            
+        def check_draw():
+            None
+
+        check_rows()
+        check_columns()
+        check_diagonal()
+        check_draw()
     
+    # Set player names for player 1 and player 2
     def set_player_names(self):
         self.__clear()
         self.player_one = input('\nPlayer one, enter your name: ')
         self.__clear()
         self.player_two = input('\nPlayer two, enter your name: ') 
 
+    # Run main game logic
     def run_game(self):
         self.game_running = True
         while self.game_running:
-            self.__print_grid()
             if self.player_turn == 1:
+                self.__print_grid(message='\n##### Player 1 #####')
                 print('{}, it is your turn.'.format(self.player_one))
-                self.select_column = int(input('\nSelect column: '))
-                self.select_row = int(input('Select row: '))
+                self.select_column = input('\nSelect column: ')
+                self.select_row = input('Select row: ')
                 self.__check_grid_entry()
-                self.grid[self.select_row-1][self.select_column-1] = 1
+                self.grid[int(self.select_row)-1][int(self.select_column)-1] = 1
                 self.__check_win()
                 self.player_turn = 2
             elif self.player_turn == 2:
-                print('\n{}, it is your turn.'.format(self.player_two))
-                self.select_column = int(input('\nSelect column: '))
-                self.select_row = int(input('Select row: '))
+                self.__print_grid(message='\n##### Player 2 #####')
+                print('{}, it is your turn.'.format(self.player_two))
+                self.select_column = input('\nSelect column: ')
+                self.select_row = input('Select row: ')
                 self.__check_grid_entry()
-                self.grid[self.select_row-1][self.select_column-1] = 2
+                self.grid[int(self.select_row)-1][int(self.select_column)-1] = 2
                 self.__check_win()
                 self.player_turn = 1
 
