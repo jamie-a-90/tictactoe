@@ -82,7 +82,11 @@ class Multiplayer:
                 print("Player two wins!\n")
     
         def check_draw():
-            None
+            all_rows = self.__grid[0] + self.__grid[1] + self.__grid[2]
+            if 0 not in all_rows:
+                self.__alive = False
+                self.__print___grid(message='\n####### Draw  ######')
+                print("Draw! Nobody wins.\n")
 
         check_rows()
         check_columns()
