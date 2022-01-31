@@ -54,20 +54,17 @@ class Multiplayer:
                     self.game_running = False
                     self.__print_grid(message='\n##### Player 2 #####')
                     print("Player two wins!\n")  
-                
-        def check_columns(): ### THIS IS FUCKED. FIX IT.
-            check_column_one = list()
-            check_column_two = list()
-            check_column_three = list()
-            for row in self.grid:
-                check_column_one.append(row[0])
-                check_column_two.append(row[1])
-                check_column_three.append(row[2])
-            if set(check_column_one) == {1} or check_column_two == {1} or check_column_three == {1}:
+
+        def check_columns():
+            if (set([self.grid[0][0], self.grid[1][0], self.grid[2][0]]) == {1} or
+                    set([self.grid[0][1], self.grid[1][1], self.grid[2][1]]) == {1} or 
+                    set([self.grid[0][2], self.grid[1][2], self.grid[2][2]]) == {1}):
                 self.game_running = False
                 self.__print_grid(message='\n##### Player 1 #####')
                 print("Player one wins!\n")
-            if set(check_column_one) == {2} or check_column_two == {2} or check_column_three == {2}:#
+            if (set([self.grid[0][0], self.grid[1][0], self.grid[2][0]]) == {2} or
+                    set([self.grid[0][1], self.grid[1][1], self.grid[2][1]]) == {2} or 
+                    set([self.grid[0][2], self.grid[1][2], self.grid[2][2]]) == {2}):
                 self.game_running = False
                 self.__print_grid(message='\n##### Player 2 #####')
                 print("Player two wins!\n")
