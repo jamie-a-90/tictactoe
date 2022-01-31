@@ -14,7 +14,7 @@ class Multiplayer:
         self.__input_valid = True 
 
     # Print __grid in console
-    def __print___grid(self, message=None):
+    def __print_grid(self, message=None):
         self.__clear()
         if message:
             print(message)
@@ -29,7 +29,7 @@ class Multiplayer:
         system('cls')
 
     # Check for invalid input
-    def __check___grid_entry(self):
+    def __check_grid_entry(self):
         if not self.__select_column.isnumeric() or not self.__select_row.isnumeric(): # Check to ensure input is numeric
             print('\nInvalid input. Please use column/row 1, 2 or 3.')
             time.sleep(2)
@@ -48,11 +48,11 @@ class Multiplayer:
             for row in self.__grid:
                 if set(row) == {1}:
                     self.__alive = False
-                    self.__print___grid(message='\n##### Player 1 #####')
+                    self.__print_grid(message='\n##### Player 1 #####')
                     print("Player one wins!\n")
                 if set(row) == {2}:
                     self.__alive = False
-                    self.__print___grid(message='\n##### Player 2 #####')
+                    self.__print_grid(message='\n##### Player 2 #####')
                     print("Player two wins!\n")  
 
         def check_columns():
@@ -60,32 +60,32 @@ class Multiplayer:
                     set([self.__grid[0][1], self.__grid[1][1], self.__grid[2][1]]) == {1} or 
                     set([self.__grid[0][2], self.__grid[1][2], self.__grid[2][2]]) == {1}):
                 self.__alive = False
-                self.__print___grid(message='\n##### Player 1 #####')
+                self.__print_grid(message='\n##### Player 1 #####')
                 print("Player one wins!\n")
             if (set([self.__grid[0][0], self.__grid[1][0], self.__grid[2][0]]) == {2} or
                     set([self.__grid[0][1], self.__grid[1][1], self.__grid[2][1]]) == {2} or 
                     set([self.__grid[0][2], self.__grid[1][2], self.__grid[2][2]]) == {2}):
                 self.__alive = False
-                self.__print___grid(message='\n##### Player 2 #####')
+                self.__print_grid(message='\n##### Player 2 #####')
                 print("Player two wins!\n")
 
         def check_diagonal():
             if (set([self.__grid[0][0], self.__grid[1][1], self.__grid[2][2]]) == {1} or
                     set([self.__grid[0][2], self.__grid[1][1], self.__grid[2][0]]) == {1}):
                 self.__alive = False
-                self.__print___grid(message='\n##### Player 1 #####')
+                self.__print_grid(message='\n##### Player 1 #####')
                 print("Player one wins!\n")
             if (set([self.__grid[0][0], self.__grid[1][1], self.__grid[2][2]]) == {2} or
                     set([self.__grid[0][2], self.__grid[1][1], self.__grid[2][0]]) == {2}):
                 self.__alive = False
-                self.__print___grid(message='\n##### Player 2 #####')
+                self.__print_grid(message='\n##### Player 2 #####')
                 print("Player two wins!\n")
     
         def check_draw():
             all_rows = self.__grid[0] + self.__grid[1] + self.__grid[2]
             if 0 not in all_rows:
                 self.__alive = False
-                self.__print___grid(message='\n####### Draw  ######')
+                self.__print_grid(message='\n####### Draw  ######')
                 print("Draw! Nobody wins.\n")
 
         check_rows()
@@ -105,11 +105,11 @@ class Multiplayer:
         while self.__alive:
             if self.player_turn == 1:
                 while self.__input_valid:
-                    self.__print___grid(message='\n##### Player 1 #####')
+                    self.__print_grid(message='\n##### Player 1 #####')
                     print('{}, it is your turn.'.format(self.player_one))
                     self.__select_column = input('\nSelect column: ')
                     self.__select_row = input('Select row: ')
-                    self.__check___grid_entry()
+                    self.__check_grid_entry()
                 self.__grid[int(self.__select_row)-1][int(self.__select_column)-1] = 1
                 self.__check_win()
                 if not self.__alive:
@@ -119,11 +119,11 @@ class Multiplayer:
                     self.__input_valid = True
             if self.player_turn == 2:
                 while self.__input_valid:
-                    self.__print___grid(message='\n##### Player 2 #####')
+                    self.__print_grid(message='\n##### Player 2 #####')
                     print('{}, it is your turn.'.format(self.player_two))
                     self.__select_column = input('\nSelect column: ')
                     self.__select_row = input('Select row: ')
-                    self.__check___grid_entry()
+                    self.__check_grid_entry()
                 self.__grid[int(self.__select_row)-1][int(self.__select_column)-1] = 2
                 self.__check_win()
                 if not self.__alive:
